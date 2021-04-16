@@ -1,0 +1,4 @@
+create seeder = npx sequelize seed:create --name=products-seeders
+sending seeder = npx sequelize db:seed:all
+create table = npx sequelize migration:create --name=create-table-products
+sending table to database = npx sequelize db:migrate
