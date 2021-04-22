@@ -15,8 +15,8 @@ module.exports =
     define: {
       underscored: true,
       timestamps: true,
-      createdAt: "created_at",
-      updatedAt: "updated_at",
+      createdAt: "createdAt",
+      updatedAt: "updatedAt",
     }
   },
   test: {
@@ -33,8 +33,8 @@ module.exports =
     define: {
       underscored: true,
       timestamps: true,
-      createdAt: "created_at",
-      updatedAt: "updated_at",
+      createdAt: "createdAt",
+      updatedAt: "updatedAt",
     }    
   },
   production: {
@@ -52,7 +52,7 @@ module.exports =
   define: {
     underscored: true,
     timestamps: true,
-    createdAt: "created_at",
-    updatedAt: "updated_at",
+    createdAt: "createdAt",
+    updatedAt: "updatedAt",
   }
 }
