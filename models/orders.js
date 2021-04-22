@@ -38,11 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         values: ["in_cart", "pending", "payed"],
         allowNull: false,
       },
-      created_at: {
+      createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      updated_at: {
+      updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
       },
