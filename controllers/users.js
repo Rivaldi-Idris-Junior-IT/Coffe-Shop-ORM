@@ -1,5 +1,6 @@
-const { User } = require("../models/index");
+const { User, sequelize } = require("../models/index");
 const bcrypt = require("bcrypt");
+const cloudinary = require("../Middleware/Cloudinary");
 const { use } = require("../src/Routes");
 exports.register = async (req, res) => {
   try {
@@ -111,8 +112,14 @@ exports.updateUser = async (req, res) => {
         messages: "Email already exist",
       });
     }
+    
+    const cldID = userById.cloudinary_id
+    
+    await cloudinary.uploader.destroy(cldID, function(error, result){ 
+      console.log(result, error);
+    })
 
-    let updateData = req.body;
+      let updateData = req.body
 
     if (req.body.password) {
       const hashPassword = await bcrypt.hash(
@@ -133,6 +140,9 @@ exports.updateUser = async (req, res) => {
         fullname: userById.fullname,
         email: userById.email,
         role: userById.role,
+        avatar: userById.avatar,
+        date_of_birth: userById.date_of_birth,
+        address: userById.address
       },
     });
   } catch (error) {
@@ -190,9 +200,10 @@ exports.getUserAll = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id);
+exports.deleteUser = async (req, res, public_id) => {
+  try {      
+
+    const user = await User.findByPk(req.params.id);    
 
     if (!user) {
       return res.status(404).json({
@@ -200,6 +211,12 @@ exports.deleteUser = async (req, res) => {
         message: "User not found",
       });
     }
+
+    const cldID = user.cloudinary_id
+    
+    await cloudinary.uploader.destroy(cldID, function(error, result){ 
+      console.log(result, error);
+    })
 
     await User.destroy({ where: { id: req.params.id } });
 
@@ -211,6 +228,8 @@ exports.deleteUser = async (req, res) => {
         fullname: user.fullname,
         email: user.email,
         role: user.role,
+        avatar: user.avatar,
+        cloudinary_id: user.cloudinary_id
       },
     });
   } catch (error) {

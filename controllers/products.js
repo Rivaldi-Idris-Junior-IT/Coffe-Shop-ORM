@@ -1,3 +1,4 @@
+const cloudinary = require("../Middleware/Cloudinary");
 const { Products } = require("../models/index");
 
 exports.getProductsAll = async (req, res) => {
@@ -58,6 +59,12 @@ exports.updateProduct = async (req, res) => {
             });
         }
 
+        const cldID = productById.cloudinary_id
+    
+        await cloudinary.uploader.destroy(cldID, function(error, result){ 
+          console.log(result, error);
+        })
+
         let updateData = req.body;
 
         await productById.update(updateData)
@@ -85,7 +92,7 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
     try {
-      const product = await Products.findByPk(req.params.id);
+      const product = await Products.findByPk(req.params.id);      
   
       if (!product) {
         return res.status(404).json({
@@ -93,6 +100,12 @@ exports.deleteProduct = async (req, res) => {
           message: "product not found",
         });
       }
+
+      const cldID = product.cloudinary_id
+    
+      await cloudinary.uploader.destroy(cldID, function(error, result){ 
+        console.log(result, error);
+      })
   
       await Products.destroy({ where: { id: req.params.id } });
   

@@ -46,6 +46,10 @@ module.exports = (sequelize, DataTypes) => {
         values: ["admin", "user"],
         allowNull: false,
       },
+      cloudinary_id: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       created_at: {
         type: DataTypes.DATE,
         allowNull: false,
